@@ -22,7 +22,7 @@
     }
 
     .note {
-      background: #00796b; /* teal */
+      background: #00796b;
       color: white;
       padding: 12px 16px;
       border-radius: 10px;
@@ -41,8 +41,7 @@
       gap: 1.5rem;
       position: relative;
       max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 0 auto;
     }
 
     .journey-map::before {
@@ -62,7 +61,7 @@
       padding: 1rem 1.25rem;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       position: relative;
       margin-left: 1.5rem;
       transition: background 0.3s ease;
@@ -74,7 +73,7 @@
       content: '';
       position: absolute;
       left: -1.5rem;
-      top: 50%;
+      top: 24px;
       transform: translateY(-50%);
       width: 20px;
       height: 20px;
@@ -97,7 +96,12 @@
     .checkpoint h2 {
       font-size: 1.05rem;
       margin: 0;
-      flex-grow: 1;
+    }
+
+    .checkpoint p {
+      margin: 4px 0 0;
+      font-size: 0.85rem;
+      color: #555;
     }
 
     .checkmark {
@@ -199,15 +203,15 @@
 
   <script>
     const checkpoints = [
-      "Marketo",
-      "CX (Customer Experience)",
-      "TAS (Test Advisory Session)",
-      "RP (Readiness Program)",
-      "Booking",
-      "Test Day",
-      "Results",
-      "RO (Result Orientation)",
-      "Gallery"
+      { title: "Marketo", description: "Initial marketing engagement and lead capture." },
+      { title: "CX (Customer Experience)", description: "Personalized onboarding and orientation." },
+      { title: "TAS (Test Advisory Session)", description: "Session to understand test readiness." },
+      { title: "RP (Readiness Program)", description: "Structured training to prepare for test." },
+      { title: "Booking", description: "Schedule your IELTS test date." },
+      { title: "Test Day", description: "Attend and complete your IELTS exam." },
+      { title: "Results", description: "Receive your IELTS test results." },
+      { title: "RO (Result Orientation)", description: "Understand your results and next steps." },
+      { title: "Gallery", description: "Celebrate success with photos or testimonials." }
     ];
 
     const journeyContainer = document.getElementById("journey");
@@ -234,13 +238,16 @@
       }, 300);
     }
 
-    checkpoints.forEach((title, index) => {
+    checkpoints.forEach((item, index) => {
       const div = document.createElement("div");
       div.className = "checkpoint";
       if (storedStatus[index]) div.classList.add("completed");
 
       div.innerHTML = `
-        <h2>${title}</h2>
+        <div style="flex-grow: 1;">
+          <h2>${item.title}</h2>
+          <p>${item.description}</p>
+        </div>
         <span class="checkmark">${storedStatus[index] ? "✔️" : "⭕"}</span>
       `;
 
@@ -250,31 +257,19 @@
         div.querySelector('.checkmark').textContent = isDone ? "✔️" : "⭕";
         storedStatus[index] = isDone;
         sessionStorage.setItem("ieltsStatus", JSON.stringify(storedStatus));
-
-
-        if (checkAllCompleted()) {
-          showCongratsPod();
-        }
+        if (checkAllCompleted()) showCongratsPod();
       });
 
       journeyContainer.appendChild(div);
     });
 
-    // Check on page load and show pod if already completed
     if (checkAllCompleted()) {
       showCongratsPod();
     }
 
-    // Close button for pod
-    congratsOverlay.querySelector('.congrats-close').addEventListener('click', () => {
-      hideCongratsPod();
-    });
-
-    // Optional: close pod when clicking outside pod area
+    congratsOverlay.querySelector('.congrats-close').addEventListener('click', hideCongratsPod);
     congratsOverlay.addEventListener('click', (e) => {
-      if (e.target === congratsOverlay) {
-        hideCongratsPod();
-      }
+      if (e.target === congratsOverlay) hideCongratsPod();
     });
   </script>
 </body>
