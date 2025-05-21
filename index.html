@@ -212,7 +212,8 @@
 
     const journeyContainer = document.getElementById("journey");
     const congratsOverlay = document.getElementById("congratsOverlay");
-    const storedStatus = JSON.parse(localStorage.getItem("ieltsStatus") || "[]");
+    const storedStatus = JSON.parse(sessionStorage.getItem("ieltsStatus") || "[]");
+
 
     function checkAllCompleted() {
       return checkpoints.every((_, i) => storedStatus[i]);
@@ -248,7 +249,8 @@
         const isDone = div.classList.contains("completed");
         div.querySelector('.checkmark').textContent = isDone ? "✔️" : "⭕";
         storedStatus[index] = isDone;
-        localStorage.setItem("ieltsStatus", JSON.stringify(storedStatus));
+        sessionStorage.setItem("ieltsStatus", JSON.stringify(storedStatus));
+
 
         if (checkAllCompleted()) {
           showCongratsPod();
