@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My IELTS Journey</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #e0f7fa, #ffffff);
+      color: #333;
+      padding: 1rem;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #D71920;
+    }
+
+    .note {
+      background: #00796b; /* teal */
+      color: white;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 121, 107, 0.3);
+    }
+
+    .journey-map {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      position: relative;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .journey-map::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, #00796b, #004d40);
+      border-radius: 2px;
+    }
+
+    .checkpoint {
+      background: #ffffffcc;
+      border-radius: 16px;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      position: relative;
+      margin-left: 1.5rem;
+      transition: background 0.3s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checkpoint::before {
+      content: '';
+      position: absolute;
+      left: -1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #bdbdbd;
+      border: 4px solid white;
+      box-shadow: 0 0 0 2px #00796b;
+      transition: background 0.3s;
+    }
+
+    .checkpoint.completed {
+      background: #e8f5e9;
+      opacity: 0.95;
+    }
+
+    .checkpoint.completed::before {
+      background: #388e3c;
+    }
+
+    .checkpoint h2 {
+      font-size: 1.05rem;
+      margin: 0;
+      flex-grow: 1;
+    }
+
+    .checkmark {
+      font-size: 1.4rem;
+      color: #388e3c;
+      margin-left: 1rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.85rem;
+      margin-top: 2rem;
+      color: #666;
+    }
+
+    @media (min-width: 600px) {
+      body {
+        max-width: 500px;
+        margin: auto;
+      }
+    }
+
+    /* Congratulation Pod Overlay */
+    .congrats-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 100px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 9999;
+    }
+
+    .congrats-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .congrats-pod {
+      background: #00796b;
+      color: white;
+      border-radius: 16px;
+      padding: 24px 32px;
+      max-width: 90%;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 700;
+      position: relative;
+      transform: translateY(-50px);
+      animation: slideDown 0.5s forwards;
+    }
+
+    @keyframes slideDown {
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    .congrats-close {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 900;
+      cursor: pointer;
+      user-select: none;
+      line-height: 1;
+    }
+  </style>
+</head>
+<body>
+  <h1>My IELTS Journey</h1>
+
+  <div class="note">
+    Please check each step below after completing it.
+  </div>
+
+  <div class="journey-map" id="journey"></div>
+
+  <footer>&copy; 2025 IELTS Journey. Tap on each step to mark as complete.</footer>
+
+  <!-- Congratulation Overlay Pod -->
+  <div class="congrats-overlay" id="congratsOverlay" role="alert" aria-live="assertive" aria-modal="true" tabindex="-1" hidden>
+    <div class="congrats-pod">
+      <button class="congrats-close" aria-label="Close Congratulations Popup">&times;</button>
+      🎉 Congratulations! You have successfully completed your IELTS journey! 🎉
+    </div>
+  </div>
+
+  <script>
+    const checkpoints = [
+      "Marketo",
+      "CX (Customer Experience)",
+      "TAS (Test Advisory Session)",
+      "RP (Readiness Program)",
+      "Booking",
+      "Test Day",
+      "Results",
+      "RO (Result Orientation)",
+      "Gallery"
+    ];
+
+    const journeyContainer = document.getElementById("journey");
+    const congratsOverlay = document.getElementById("congratsOverlay");
+    const storedStatus = JSON.parse(localStorage.getItem("ieltsStatus") || "[]");
+
+    function checkAllCompleted() {
+      return checkpoints.every((_, i) => storedStatus[i]);
+    }
+
+    function showCongratsPod() {
+      congratsOverlay.hidden = false;
+      setTimeout(() => {
+        congratsOverlay.classList.add('active');
+        congratsOverlay.focus();
+      }, 10);
+    }
+
+    function hideCongratsPod() {
+      congratsOverlay.classList.remove('active');
+      setTimeout(() => {
+        congratsOverlay.hidden = true;
+      }, 300);
+    }
+
+    checkpoints.forEach((title, index) => {
+      const div = document.createElement("div");
+      div.className = "checkpoint";
+      if (storedStatus[index]) div.classList.add("completed");
+
+      div.innerHTML = `
+        <h2>${title}</h2>
+        <span class="checkmark">${storedStatus[index] ? "✔️" : "⭕"}</span>
+      `;
+
+      div.querySelector('.checkmark').addEventListener("click", () => {
+        div.classList.toggle("completed");
+        const isDone = div.classList.contains("completed");
+        div.querySelector('.checkmark').textContent = isDone ? "✔️" : "⭕";
+        storedStatus[index] = isDone;
+        localStorage.setItem("ieltsStatus", JSON.stringify(storedStatus));
+
+        if (checkAllCompleted()) {
+          showCongratsPod();
+        }
+      });
+
+      journeyContainer.appendChild(div);
+    });
+
+    // Check on page load and show pod if already completed
+    if (checkAllCompleted()) {
+      showCongratsPod();
+    }
+
+    // Close button for pod
+    congratsOverlay.querySelector('.congrats-close').addEventListener('click', () => {
+      hideCongratsPod();
+    });
+
+    // Optional: close pod when clicking outside pod area
+    congratsOverlay.addEventListener('click', (e) => {
+      if (e.target === congratsOverlay) {
+        hideCongratsPod();
+      }
+    });
+  </script>
+</body>
+</html>
