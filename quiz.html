@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IELTS Quiz - 10+ Questions</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: #fff;
+      margin: 0; padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 0.3em;
+    }
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #1e1e2f;
+      border-radius: 12px;
+      padding: 20px 30px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    }
+    .question-block {
+      margin-bottom: 20px;
+      padding: 15px 20px;
+      background: #2e2e44;
+      border-radius: 10px;
+    }
+    .question-block h3 {
+      margin-top: 0;
+    }
+    label {
+      display: block;
+      margin: 8px 0;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    input[type="radio"] {
+      margin-right: 8px;
+      accent-color: #ffbf00;
+    }
+    button {
+      display: block;
+      margin: 30px auto 10px;
+      background: #ffbf00;
+      color: #1e1e2f;
+      font-weight: 700;
+      border: none;
+      padding: 14px 40px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 18px;
+      box-shadow: 0 6px 15px #ffbf0055;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background: #e6ac00;
+    }
+
+    #resultOverlay {
+      position: fixed;
+      top:0; left:0; right:0; bottom:0;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    #resultOverlay.show {
+      visibility: visible;
+      opacity: 1;
+    }
+    #resultPopup {
+      background: #ffbf00;
+      color: #1e1e2f;
+      border-radius: 15px;
+      max-width: 400px;
+      width: 90%;
+      padding: 30px 25px;
+      text-align: center;
+      box-shadow: 0 0 30px #ffbf00aa;
+    }
+    #resultPopup h2 {
+      margin-top: 0;
+    }
+    #resultPopup p {
+      font-size: 1.1em;
+      margin: 15px 0;
+    }
+    #closeBtn {
+      margin-top: 20px;
+      background: #1e1e2f;
+      color: #ffbf00;
+      font-weight: 700;
+      border-radius: 30px;
+      padding: 10px 30px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: 0 4px 15px #0008;
+      transition: background-color 0.3s ease;
+    }
+    #closeBtn:hover {
+      background: #33334a;
+    }
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>IELTS Quiz</h1>
+  <div class="quiz-container" id="quizContainer"></div>
+  <button id="submitBtn">Submit</button>
+
+  <div id="resultOverlay">
+    <div id="resultPopup">
+      <h2>Your Results</h2>
+      <p id="scoreText"></p>
+      <p id="correctAnswersText"></p>
+      <button id="closeBtn">Close</button>
+    </div>
+  </div>
+
+<script>
+(() => {
+  const allQuestions = [
+    // Cx App & Web
+    {
+      section:"Cx App",
+      question:"What is the main purpose of the IELTS by IDP app?",
+      choices:[
+        "The IELTS by IDP app helps test takers book tests, access preparation materials, track results, and receive important updates.",
+        "It's a social media app for IELTS students.",
+        "It provides offline IELTS tests only.",
+        "It only tracks speaking test results."
+      ],
+      answerIndex: 0
+    },
+    {
+      section:"Cx Web",
+      question:"Can you check your IELTS results on ielts.idp.com?",
+      choices:[
+        "No, results aren't available on the website.",
+        "Yes, test takers can log in to view and download results.",
+        "Only test centers can view results.",
+        "Results are mailed only."
+      ],
+      answerIndex: 1
+    },
+
+    // Referral Partner (2 questions)
+    {
+      section:"Referral Partner",
+      question:"Which country has done the highest number of referral bookings?",
+      choices:[
+        "Pakistan", "Philippines", "Vietnam", "Japan"
+      ],
+      answerIndex: 2
+    },
+    {
+      section:"Referral Partner",
+      question:"All the referral partners of a country agree upon a common commission structure. What is the commission structure named as?",
+      choices:[
+        "Country level commission structure",
+        "Account level Commission structure",
+        "Test Centre Level Commission Structure",
+        "None of the above"
+      ],
+      answerIndex: 0
+    },
+
+    // BX (2 questions)
+    {
+      section:"BX",
+      question:"What is the primary purpose of the IELTS BX Book platform?",
+      choices:[
+        "Finding test centers",
+        "Booking IELTS test sessions and making payments",
+        "Practicing IELTS questions",
+        "Customer support"
+      ],
+      answerIndex: 1
+    },
+    {
+      section:"BX",
+      question:"Can you make payments on the BXSearch platform?",
+      choices:[
+        "Yes",
+        "No"
+      ],
+      answerIndex: 1
+    },
+
+    // Voucher Code (2 questions)
+    {
+      section:"Voucher Code",
+      question:"What is the main purpose of launching IELTS voucher codes?",
+      choices:[
+        "Reduce operational costs",
+        "Drive customer acquisition and repeat bookings",
+        "Launch new test types",
+        "Increase staff engagement"
+      ],
+      answerIndex: 1
+    },
+    {
+      section:"Voucher Code",
+      question:"Which test types are eligible for voucher code redemption? (Select all that apply)",
+      choices:[
+        "IOL OSR",
+        "IOC GT",
+        "IOC UKVI AC",
+        "IOL"
+      ],
+      answerIndex: 1 // for demo, just accepting "IOC GT"
+    },
+
+    // TAS (2 questions)
+    {
+      section:"TAS",
+      question:"What does TAS stand for?",
+      choices:[
+        "Test Administration System",
+        "Test Assessment Software",
+        "Test Allocation System",
+        "Test Application Suite"
+      ],
+      answerIndex: 0
+    },
+    {
+      section:"TAS",
+      question:"Which action cannot be done in TAS?",
+      choices:[
+        "Managing the Test Centres",
+        "Deleting a session",
+        "Booking a Test",
+        "None of the above"
+      ],
+      answerIndex: 3
+    },
+
+    // Marketo (2 questions)
+    {
+      section:"Marketo",
+      question:"How many IELTS bookings were achieved through marketing automation this year?",
+      choices:[
+        "10,000", "15,000", "20,000", "25,000"
+      ],
+      answerIndex: 2
+    },
+    {
+      section:"Marketo",
+      question:"Which country led in user engagement on the WhatsApp channel?",
+      choices:[
+        "India", "Vietnam", "Canada", "Philippines"
+      ],
+      answerIndex: 0
+    },
+
+    // SES (2 questions)
+    {
+      section:"SES",
+      question:"What is the primary purpose of the SES portal?",
+      choices:[
+        "Scheduling speaking tests",
+        "Managing examiner workflows and assignments",
+        "Student registration",
+        "Writing test questions"
+      ],
+      answerIndex: 1
+    },
+    {
+      section:"SES",
+      question:"How long does the IELTS Speaking test usually last?",
+      choices:[
+        "5 minutes",
+        "11–14 minutes",
+        "20 minutes",
+        "30 minutes"
+      ],
+      answerIndex: 1
+    }
+  ];
+
+  const quizContainer = document.getElementById("quizContainer");
+  const submitBtn = document.getElementById("submitBtn");
+  const resultOverlay = document.getElementById("resultOverlay");
+  const scoreText = document.getElementById("scoreText");
+  const correctAnswersText = document.getElementById("correctAnswersText");
+  const closeBtn = document.getElementById("closeBtn");
+
+  // We want minimum 10 questions in quiz
+  const numQuestions = 10;
+
+  // Shuffle helper
+  function shuffleArray(arr) {
+    for(let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  }
+
+  shuffleArray(allQuestions);
+
+  // Pick first numQuestions or all if less
+  const selected = allQuestions.slice(0, Math.min(numQuestions, allQuestions.length));
+
+  // Render questions
+  selected.forEach((q, idx) => {
+    const qDiv = document.createElement("div");
+    qDiv.className = "question-block";
+    qDiv.innerHTML = `<h3>Q${idx+1}. ${q.question}</h3>`;
+    q.choices.forEach((choice, cidx) => {
+      const choiceId = `q${idx}_choice${cidx}`;
+      qDiv.innerHTML += `
+        <label for="${choiceId}">
+          <input type="radio" name="q${idx}" id="${choiceId}" value="${cidx}" />
+          ${choice}
+        </label>`;
+    });
+    quizContainer.appendChild(qDiv);
+  });
+
+  submitBtn.onclick = () => {
+    let correctCount = 0;
+    let answeredCount = 0;
+    selected.forEach((q, idx) => {
+      const selectedInput = document.querySelector(`input[name="q${idx}"]:checked`);
+      if (selectedInput) {
+        answeredCount++;
+        if (parseInt(selectedInput.value) === q.answerIndex) {
+          correctCount++;
+        }
+      }
+    });
+    if (answeredCount < selected.length) {
+      alert("Please answer all questions before submitting.");
+      return;
+    }
+
+    scoreText.textContent = `You scored ${correctCount} out of ${selected.length} questions.`;
+    correctAnswersText.textContent = `Accuracy: ${(correctCount / selected.length * 100).toFixed(1)}%`;
+    resultOverlay.classList.add("show");
+  };
+
+  closeBtn.onclick = () => {
+    resultOverlay.classList.remove("show");
+  };
+})();
+</script>
+<footer>Powered by IELTS Quiz Assistant</footer>
+</body>
+</html>
