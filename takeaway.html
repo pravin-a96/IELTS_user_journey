@@ -5,169 +5,230 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Z-Pattern Layout</title>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #fff;
-      color: #333;
-      scroll-behavior: smooth; /* smooth scroll */
-      overflow-x: hidden;
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fff;
+    color: #333;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  /* Header */
+  header {
+    background-color: #fff;
+    color: #d71920;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    flex-wrap: wrap;
+  }
+
+  header .logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 1.2px;
+    user-select: none;
+    color: #d71920;
+  }
+
+  nav a {
+    color: #d71920;
+    text-decoration: none;
+    margin-left: 2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  nav a:hover {
+    color: #f37021;
+  }
+
+  .nav-menu {
+    display: flex;
+    align-items: center;
+  }
+
+  .hamburger {
+    display: none;
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    color: #d71920;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .hamburger {
+      display: block;
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
     }
 
-    /* Header */
-    header {
+    .nav-menu {
+      display: none;
+      flex-direction: column;
+      width: 100%;
       background-color: #fff;
-      color: #d71920;
-      padding: 1rem 2rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      margin-top: 3.5rem; /* leave space below sticky header */
+    }
+
+    .nav-menu.show {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .nav-menu a {
+      padding: 1rem;
+      border-top: 1px solid #eee;
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    header {
+      align-items: flex-start;
       position: sticky;
       top: 0;
       z-index: 1000;
+      flex-direction: column;
     }
-    header .logo {
-      font-weight: 700;
-      font-size: 1.5rem;
-      letter-spacing: 1.2px;
-      user-select: none;
-      color: #d71920;
-    }
-    nav a {
-      color: #d71920;
-      text-decoration: none;
-      margin-left: 2rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
-    nav a:hover {
-      color: #f37021;
-    }
+  }
 
-    /* Footer */
-    footer {
-      background-color: #f7f7f7;
-      color: #d71920;
-      text-align: center;
-      padding: 2rem 1rem;
-      font-size: 0.9rem;
-      margin-top: 3rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    footer a {
-      color: #f9be00;
-      text-decoration: none;
-      margin: 0 0.5rem;
-      font-weight: 600;
-    }
-    footer a:hover {
-      text-decoration: underline;
-    }
+  /* Footer */
+  footer {
+    background-color: #f7f7f7;
+    color: #d71920;
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 0.9rem;
+    margin-top: 3rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
 
-    /* Sections */
-    .section {
-      padding: 3rem 2rem;
-      max-width: 1200px;
-      margin: 0 auto 4rem auto;
-    }
-    .section:nth-child(even) {
-      background-color: #f7f7f7;
-    }
+  footer a {
+    color: #f9be00;
+    text-decoration: none;
+    margin: 0 0.5rem;
+    font-weight: 600;
+  }
 
+  footer a:hover {
+    text-decoration: underline;
+  }
+
+  /* Sections */
+  .section {
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto 4rem auto;
+  }
+
+  .section:nth-child(even) {
+    background-color: #f7f7f7;
+  }
+
+  .content-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .text-box {
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    flex: 1 1 45%;
+    min-width: 280px;
+  }
+
+  .image-box {
+    flex: 1 1 45%;
+    text-align: center;
+    min-width: 280px;
+  }
+
+  .image-box img {
+    width: 100%;
+    max-width: 450px;
+    max-height: 450px;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow:
+      0 10px 20px rgba(0,0,0,0.25),
+      0 0 15px rgba(0,0,0,0.15);
+    background: transparent;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+  }
+
+  .reverse .content-row {
+    flex-direction: row-reverse;
+  }
+
+  .text-box h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .text-box ul,
+  .text-box ol {
+    padding-left: 1.2rem;
+    line-height: 1.6;
+  }
+
+  /* IDP / IELTS Color Palette */
+  .color-orange h2 { color: #f37021; }
+  .color-blue h2 { color: #0072ce; }
+  .color-green h2 { color: #6abf4b; }
+  .color-red h2 { color: #d71920; }
+  .color-purple h2 { color: #6e44ff; }
+  .color-darkblue h2 { color: #003478; }
+  .color-teal h2 { color: #009fa3; }
+  .color-yellow h2 { color: #f9be00; }
+
+  @media (max-width: 768px) {
     .content-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-    .text-box {
-      background-color: #fff;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-      padding: 2rem;
-      flex: 1 1 45%;
-      min-width: 280px;
-    }
-    .image-box {
-      flex: 1 1 45%;
+      flex-direction: column;
       text-align: center;
-      min-width: 280px;
-    }
-    .image-box img {
-      width: 100%;
-      max-width: 450px;
-      max-height: 450px;
-      object-fit: contain;
-      border-radius: 12px;
-      /* Shadow only around image, no white background */
-      box-shadow:
-        0 10px 20px rgba(0,0,0,0.25),
-        0 0 15px rgba(0,0,0,0.15);
-      background: transparent; /* no white background */
-      display: inline-block;
-      margin: 0; /* remove any default margin */
-      padding: 0; /* remove any default padding */
-      vertical-align: middle;
     }
     .reverse .content-row {
-      flex-direction: row-reverse;
+      flex-direction: column;
     }
-    .text-box h2 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
+    nav a {
+      margin-left: 1rem;
+      font-size: 0.9rem;
     }
-    .text-box ul,
-    .text-box ol {
-      padding-left: 1.2rem;
-      line-height: 1.6;
-    }
+  }
+</style>
 
-    /* IDP / IELTS Color Palette */
-    .color-orange h2 { color: #f37021; }
-    .color-blue h2 { color: #0072ce; }
-    .color-green h2 { color: #6abf4b; }
-    .color-red h2 { color: #d71920; }
-    .color-purple h2 { color: #6e44ff; }
-    .color-darkblue h2 { color: #003478; }
-    .color-teal h2 { color: #009fa3; }
-    .color-yellow h2 { color: #f9be00; }
-
-    @media (max-width: 768px) {
-      .content-row {
-        flex-direction: column;
-        text-align: center;
-      }
-      .reverse .content-row {
-        flex-direction: column;
-      }
-      nav a {
-        margin-left: 1rem;
-        font-size: 0.9rem;
-      }
-      header {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 1rem;
-      }
-    }
-  </style>
 </head>
 <body>
 
 <header>
  
   <img src="https://image.ielts.idp.com/IELTS_Website_Rebrand/assets/home/idp_ielts_logo.svg" />
-  <nav>
+  <button class="hamburger" aria-label="Toggle navigation">&#9776;</button>
+  <nav class="nav-menu">
     <a href="#app">CX App</a>
     <a href="#web">CX Website</a>
     <a href="#tas">TAS</a>
-    <a href="#booking">Booking Experience</a>
-    <a href="#referral">Referral Partner</a>
+    <a href="#booking">BX</a>
+    <a href="#referral">RP</a>
     <a href="#marketo">Marketo</a>
-    <a href="#voucher">Voucher Codes</a>
+    <a href="#voucher">VC</a>
     <a href="#ses">SES</a>
   </nav>
 </header>
@@ -265,13 +326,13 @@
   <div class="content-row">
     <div class="text-box color-red">
       <h2>Referral Partner</h2>
-      <ol>
+      <ul>
         <li>Become a referral partner</li>
         <li>Get customized test booking links and marketing materials</li>
         <li>Promote the links via social media</li>
         <li>Track referral bookings</li>
         <li>Earn commissions — more bookings = higher commission</li>
-      </ol>
+      </ul>
       <h3>Commission Structure</h3>
       <ul>
         <li><strong>Country Level:</strong> Common structure agreed among all referral partners in a country</li>
@@ -359,8 +420,6 @@
 </footer>
 
 <script>
-  // Smooth scroll is done via CSS scroll-behavior.
-  // Prevent default on nav links and scroll smoothly to section by ID.
   const links = document.querySelectorAll('nav a');
 
   links.forEach(link => {
@@ -371,9 +430,18 @@
       if (targetSection) {
         targetSection.scrollIntoView({ behavior: 'smooth' });
       }
+
+      // Close menu on link click
+      document.querySelector('.nav-menu').classList.remove('show');
     });
   });
+
+  // Hamburger toggle
+  document.querySelector('.hamburger').addEventListener('click', () => {
+    document.querySelector('.nav-menu').classList.toggle('show');
+  });
 </script>
+
 
 </body>
 </html>
