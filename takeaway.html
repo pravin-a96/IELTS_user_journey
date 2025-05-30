@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Z-Pattern Layout</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff;
+      color: #333;
+      scroll-behavior: smooth; /* smooth scroll */
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    header {
+      background-color: #fff;
+      color: #d71920;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 1.2px;
+      user-select: none;
+      color: #d71920;
+    }
+    nav a {
+      color: #d71920;
+      text-decoration: none;
+      margin-left: 2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #f37021;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #f7f7f7;
+      color: #d71920;
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.9rem;
+      margin-top: 3rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    footer a {
+      color: #f9be00;
+      text-decoration: none;
+      margin: 0 0.5rem;
+      font-weight: 600;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Sections */
+    .section {
+      padding: 3rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto 4rem auto;
+    }
+    .section:nth-child(even) {
+      background-color: #f7f7f7;
+    }
+
+    .content-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .text-box {
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      padding: 2rem;
+      flex: 1 1 45%;
+      min-width: 280px;
+    }
+    .image-box {
+      flex: 1 1 45%;
+      text-align: center;
+      min-width: 280px;
+    }
+    .image-box img {
+      width: 100%;
+      max-width: 450px;
+      max-height: 450px;
+      object-fit: contain;
+      border-radius: 12px;
+      /* Shadow only around image, no white background */
+      box-shadow:
+        0 10px 20px rgba(0,0,0,0.25),
+        0 0 15px rgba(0,0,0,0.15);
+      background: transparent; /* no white background */
+      display: inline-block;
+      margin: 0; /* remove any default margin */
+      padding: 0; /* remove any default padding */
+      vertical-align: middle;
+    }
+    .reverse .content-row {
+      flex-direction: row-reverse;
+    }
+    .text-box h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    .text-box ul,
+    .text-box ol {
+      padding-left: 1.2rem;
+      line-height: 1.6;
+    }
+
+    /* IDP / IELTS Color Palette */
+    .color-orange h2 { color: #f37021; }
+    .color-blue h2 { color: #0072ce; }
+    .color-green h2 { color: #6abf4b; }
+    .color-red h2 { color: #d71920; }
+    .color-purple h2 { color: #6e44ff; }
+    .color-darkblue h2 { color: #003478; }
+    .color-teal h2 { color: #009fa3; }
+    .color-yellow h2 { color: #f9be00; }
+
+    @media (max-width: 768px) {
+      .content-row {
+        flex-direction: column;
+        text-align: center;
+      }
+      .reverse .content-row {
+        flex-direction: column;
+      }
+      nav a {
+        margin-left: 1rem;
+        font-size: 0.9rem;
+      }
+      header {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+ 
+  <img src="https://image.ielts.idp.com/IELTS_Website_Rebrand/assets/home/idp_ielts_logo.svg" />
+  <nav>
+    <a href="#app">CX App</a>
+    <a href="#web">CX Website</a>
+    <a href="#tas">TAS</a>
+    <a href="#booking">Booking Experience</a>
+    <a href="#referral">Referral Partner</a>
+    <a href="#marketo">Marketo</a>
+    <a href="#voucher">Voucher Codes</a>
+    <a href="#ses">SES</a>
+  </nav>
+</header>
+
+<!-- Sections -->
+
+<div id="app" class="section">
+  <div class="content-row">
+    <div class="text-box color-orange">
+      <h2>Customer Experience App</h2>
+      <ul>
+        <li>Book IELTS tests with ease from your mobile</li>
+        <li>Practice with expert tips and sample questions</li>
+        <li>Track your results and receive timely updates</li>
+        <li>Personalized test countdown and reminders</li>
+        <li>Available on both iOS and Android for free</li>
+      </ul>
+      <p>The IELTS by IDP app supports every step of your test journey, from booking to results — all in one place.</p>
+    </div>
+    <div class="image-box">
+      <img src="cxa-i.png" alt="Customer Experience App" />
+    </div>
+  </div>
+</div>
+
+<div id="web" class="section reverse">
+  <div class="content-row">
+    <div class="text-box color-blue">
+      <h2>Customer Experience Web</h2>
+      <ul>
+        <li>Book your IELTS test easily online</li>
+        <li>Access and download your IELTS results</li>
+        <li>Compare computer-delivered and paper-based IELTS</li>
+        <li>Learn about the IELTS scoring system</li>
+        <li>Free sample questions, webinars, and tips</li>
+      </ul>
+      <p>The IELTS.IDP.COM website supports your test journey with essential tools and resources accessible anytime, anywhere.</p>
+    </div>
+    <div class="image-box">
+      <img src="cxw-i.png" alt="Customer Experience Web" />
+    </div>
+  </div>
+</div>
+
+<div id="tas" class="section">
+  <div class="content-row">
+    <div class="text-box color-green">
+      <h2>Test Administration System</h2>
+      <ul>
+        <li><strong>Used by:</strong> Test Centre Admins to manage IELTS operations</li>
+        <li><strong>Centre Setup:</strong> Configure test centre details, locations, products, and fees</li>
+        <li><strong>Session Management:</strong> Create sessions, allocate venues and staff</li>
+        <li><strong>Application Management:</strong> Update applications and handle transfers</li>
+        <li><strong>Test Day Materials:</strong> Print attendance registers and desk labels</li>
+        <li><strong>Staff & Profile Management:</strong> Assign staff roles and manage candidate bookings</li>
+      </ul>
+      <p>TAS ensures a secure and seamless workflow from scheduling to test day execution.</p>
+    </div>
+    <div class="image-box">
+      <img src="tas-i.png" alt="Test Administration System" />
+    </div>
+  </div>
+</div>
+
+<div id="booking" class="section reverse">
+  <div class="content-row">
+    <div class="text-box color-purple">
+      <h2>Booking Experience</h2>
+      <h3>BXSearch – Test Session Discovery</h3>
+      <ul>
+        <li>Find IELTS test sessions based on location, date, and module</li>
+        <li>Easy filters to match user preferences</li>
+        <li>Quick overview of available options</li>
+      </ul>
+      <h3>BX (Book) – Registration & Payment</h3>
+      <ul>
+        <li>Register for the selected test session</li>
+        <li>Securely complete the payment online</li>
+        <li>Receive instant booking confirmation</li>
+      </ul>
+      <h3>End-to-End Booking Journey</h3>
+      <p>
+        BXSearch and BXBook are tightly integrated platforms. Together, they deliver a 
+        seamless user journey from searching for a test to completing registration — ensuring 
+        a hassle-free booking experience.
+      </p>
+    </div>
+    <div class="image-box">
+      <img src="bx-i.png" alt="Booking Experience" />
+    </div>
+  </div>
+</div>
+
+<div id="referral" class="section">
+  <div class="content-row">
+    <div class="text-box color-red">
+      <h2>Referral Partner</h2>
+      <ol>
+        <li>Become a referral partner</li>
+        <li>Get customized test booking links and marketing materials</li>
+        <li>Promote the links via social media</li>
+        <li>Track referral bookings</li>
+        <li>Earn commissions — more bookings = higher commission</li>
+      </ol>
+      <h3>Commission Structure</h3>
+      <ul>
+        <li><strong>Country Level:</strong> Common structure agreed among all referral partners in a country</li>
+        <li><strong>Account Level:</strong> Agreed between a referral partner and a test centre</li>
+        <li><strong>Test Centre Level:</strong> Agreed between a test centre and its referral partners</li>
+      </ul>
+      <h3>Reach & Performance</h3>
+      <p><strong>Live in:</strong> 41 countries<br />
+         <strong>Total Referral Partners:</strong> 4553</p>
+      <h4>Referral Bookings by Region (since Feb 2025)</h4>
+      <ul>
+        <li><strong>SEA:</strong> 4252</li>
+        <li><strong>MEA, CIS, EU:</strong> 1565</li>
+        <li><strong>SA:</strong> 406</li>
+        <li><strong>NA:</strong> 28</li>
+      </ul>
+      <p><strong>Top Country:</strong> Vietnam with 3491 referral bookings</p>
+    </div>
+    <div class="image-box">
+      <img src="rp-i.png" alt="Referral Partner" />
+    </div>
+  </div>
+</div>
+
+<div id="marketo" class="section reverse">
+  <div class="content-row">
+    <div class="text-box color-darkblue">
+      <h2>Marketo</h2>
+      <ul>
+        <li><strong>20,000 IELTS bookings</strong> achieved through marketing automation</li>
+        <li><strong>$8.2M revenue</strong> generated from IELTS bookings YTD</li>
+        <li><strong>Canada</strong> outperformed with 193% of its booking target</li>
+        <li><strong>WhatsApp channel:</strong> 72% read rate, 392K+ messages sent</li>
+        <li><strong>India:</strong> Highest user engagement on WhatsApp</li>
+        <li><strong>7.65% conversion rate</strong> from App Push campaigns</li>
+      </ul>
+      <p>Marketo enables personalized and data-driven outreach that drives results across channels and regions.</p>
+    </div>
+    <div class="image-box">
+      <img src="mk-i.png" alt="Marketo" />
+    </div>
+  </div>
+</div>
+
+<div id="voucher" class="section">
+  <div class="content-row">
+    <div class="text-box color-teal">
+      <h2>Voucher Codes</h2>
+      <ul>
+        <li>Drive customer acquisition and repeat bookings</li>
+        <li>Apply codes during the booking process for discounts</li>
+        <li>Eligible test types: IOC GT, IOC UKVI AC</li>
+        <li>Target: 3,500–4,000 voucher redemptions in FY26</li>
+        <li>Pilot regions include UAE, Nigeria, Singapore</li>
+      </ul>
+      <p>Voucher codes offer a simple way to make IELTS more accessible and rewarding.</p>
+    </div>
+    <div class="image-box">
+      <img src="vc-i.png" alt="Voucher Codes" />
+    </div>
+  </div>
+</div>
+
+<div id="ses" class="section reverse">
+  <div class="content-row">
+    <div class="text-box color-yellow">
+      <h2>SES</h2>
+      <ul>
+        <li>Manage email delivery, bounce handling, and feedback loops</li>
+        <li>Automated workflows ensure smooth messaging</li>
+        <li>Real-time reports and analytics for email campaigns</li>
+        <li>Supports marketing and transactional email streams</li>
+        <li>Ensures compliance and high deliverability rates</li>
+      </ul>
+    </div>
+    <div class="image-box">
+      <img src="ses-i.png" alt="SES" />
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 IELTS by IDP. All rights reserved.</p>
+  
+</footer>
+
+<script>
+  // Smooth scroll is done via CSS scroll-behavior.
+  // Prevent default on nav links and scroll smoothly to section by ID.
+  const links = document.querySelectorAll('nav a');
+
+  links.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href').substring(1);
+      const targetSection = document.getElementById(targetId);
+      if (targetSection) {
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
